@@ -1,0 +1,57 @@
+/**
+*theme.dark.css
+*/
+/* 修改组件 */
+
+@menuBgColor: #1d1e23;
+@menuTxtColor: hsla(0,0%,100%,.7);
+@activeTextColor: #409EFF;
+@activeBgColor: #101117;
+@hoverTxtColor: #fff;
+@liActiveBgColor: rgba(63,64,69,.75);
+.dark{
+    .sidebar-menu-con{
+        background-color: @menuBgColor;
+        .menuInit{
+            height: 100%;
+        }
+    }
+    // 菜单栏
+    .el-submenu__title{
+        color: @menuTxtColor;
+    }
+    .el-submenu__title:hover{
+        background-color: transparent;
+        color: @hoverTxtColor;
+    }
+    .el-menu-item{
+        color: @menuTxtColor;
+    }
+    .el-menu-item:focus, .el-menu-item:hover {
+        color: @hoverTxtColor;
+        outline: 0;
+        background-color: @activeBgColor;
+    }
+    .el-menu-item.is-active{
+        color: @activeTextColor;
+        background-color: @liActiveBgColor;
+    }
+    .el-menu{
+        color: @menuTxtColor;
+        background-color: @activeBgColor;
+    }
+    .el-submenu__title i,.el-menu-item i{
+        color: inherit;
+    }
+    .menuInit{
+        background-color: @menuBgColor;
+        border: 0;
+    }
+    // .el-submenu:hover{
+    //     background-color: transparent !important;
+    // }
+    .el-menu--collapse .el-submenu__title:hover{
+        background-color: @activeBgColor;
+        color: @hoverTxtColor;
+    }
+}
