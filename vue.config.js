@@ -3,7 +3,7 @@
 const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV)
 
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production'
+    publicPath: IS_PROD
     ? './'
     : '/',
     outputDir: 'dist',

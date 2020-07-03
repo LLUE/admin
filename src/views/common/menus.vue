@@ -1,6 +1,5 @@
 <style lang="less" scoped>
     @import "./menus.less";
-
      .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 240px;
         height: 100%;
@@ -37,7 +36,7 @@
         <el-submenu :index="item.id" v-for="item in filterMenus" :key="item.id">
             <template slot="title">
                 <i :class="item.icon"></i>
-                <span slot="title">{{item.name}}</span>
+                <span slot="title">{{$t(item.name)}}</span>
             </template>
             <!-- <el-menu-item-group v-if="item.menus.length<=1">
                 <el-menu-item v-for="(data,y) in item.menus" 
@@ -55,7 +54,7 @@
                     @click="readerTo(data)"
                     >
                     <i :class="data.icon"></i>
-                    <span slot="title">{{data.title}}</span>
+                    <span slot="title">{{$t(data.title)}}</span>
                     </el-menu-item>
                 </div>
                 <div v-if="data.children.length>1">
@@ -64,13 +63,13 @@
                     >
                         <template slot="title">
                             <i :class="data.icon"></i>
-                            <span slot="title">{{data.title}}</span>
+                            <span slot="title">{{$t(data.title)}}</span>
                         </template>
                         <el-menu-item v-for="(parm,z) in data.children"
                         :key="z"
                         :index="parm.id"
                         @click="readerTo(parm)"
-                        >{{parm.meta.title}}</el-menu-item>
+                        >{{$t(parm.meta.title)}}</el-menu-item>
                     </el-submenu>
                 </div>
             </div>
@@ -101,8 +100,8 @@ export default {
             // openeds: ['/firstTwo'],
             selected: localStorage.getItem('currentMenu') || 'test',
             datas: [
-                {id: 'test', path: 'test_index', name: '导航tests', menus: testRouter, icon:'el-icon-platform-eleme'},
-                {id: 'first', path: 'first_index', name: '导航一', menus: firstRouter, icon:'el-icon-user-solid'},
+                {id: 'test', path: 'test_index', name: 'nav.dh1', menus: testRouter, icon:'el-icon-platform-eleme'},
+                {id: 'first', path: 'first_index', name: 'nav.dh2', menus: firstRouter, icon:'el-icon-user-solid'},
             ]
         };
     },
@@ -208,6 +207,7 @@ export default {
     },
     methods: {
         readerTo (active) {
+            this.$parent.initMoveTag();
             this.$store.commit('changeMenu', active);
             if(this.currentPageName !== this.$route.name){
                 this.$router.push({

@@ -19,5 +19,28 @@ export const login = {
     qsrqrmm: '请输入确认密码',
     zhbnwk: '账号不能为空',
     mmbnwk: '密码不能为空',
-    htxxglxt: '后台信息管理系统',
+    htxxglxt: '后台管理系统',
+};
+export const home = {
+    home: '首页',
+    grzl: '个人资料',
+    tc: '退出',
+    ztqh: '主题切换',
+    glms: '高亮模式',
+    yjms: '夜间模式',
+    yyqh: '语言切换',
+    yhlb: '用户列表',
+    czan: '操作按钮',
+};
+export const nav = {
+    dh1: '导航一',
+    yjzdh1: '一级子导航1',
+    yjzdh2: '一级子导航2',
+    yjzdh3: '一级子导航3',
+    dh2: '导航二',
+    ejzdh1: '二级子导航1',
+    ejzdh2: '二级子导航2',
+    ejzdh3: '二级子导航3',
+    sjzdh1: '三级子导航1',
+    sjzdh2: '三级子导航2',
 };

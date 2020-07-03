@@ -6,15 +6,16 @@ export const loginRouter = {
     meta: {
         title: 'Login - 登录'
     },
-    component: resolve => {
-        require(['./views/login.vue'], resolve);
-    }
+    // component: resolve => {
+    //     require(['./views/login.vue'], resolve);
+    // }
+    component: r => require.ensure([], () => r(require('@/views/login')), 'links')
 };
 
 export const otherRouter = {
     path: '/',
     name: 'otherRouter',
-    title: 'nav.hyffjl',
+    title: 'home.home',
     redirect: '/home',
     component: Main,
     icon: 'clipboard',
@@ -24,12 +25,10 @@ export const otherRouter = {
     children: [{
         path: 'home',
         meta: {
-            title: '首页'
+            title: 'home.home'
         }, 
-        name: 'home_index', 
-        component: resolve => {
-            require(['./views/home/home.vue'], resolve);
-        }
+        name: 'home_index',
+        component: r => require.ensure([], () => r(require('@/views/home/home')), 'links')
     }]
 };
 
@@ -37,7 +36,7 @@ export const testRouter = [
     {
         path: '/test',
         name: 'test_ones',
-        title: '导航test',
+        title: 'nav.yjzdh1',
         component: Main,
         icon: 'el-icon-star-on',
         meta: {
@@ -46,18 +45,16 @@ export const testRouter = [
         children: [{
             path: 'index',
             meta: {
-                title: '测试1'
+                title: 'nav.yjzdh1'
             }, 
             name: 'test_one', 
-            component: resolve => {
-                require(['./views/test/test1.vue'], resolve);
-            }
+            component: r => require.ensure([], () => r(require('@/views/test/test1')), 'links')
         }]
     },
     {
         path: '/test22',
         name: 'test_index',
-        title: 'test',
+        title: 'nav.yjzdh2',
         component: Main,
         icon: 'el-icon-video-camera-solid',
         meta: {
@@ -66,12 +63,10 @@ export const testRouter = [
         children: [{
             path: 'index',
             meta: {
-                title: '测试22222'
+                title: 'nav.yjzdh2'
             }, 
             name: 'test_two', 
-            component: resolve => {
-                require(['./views/test/test22.vue'], resolve);
-            }
+            component: r => require.ensure([], () => r(require('@/views/test/test22')), 'links')
         }]
     },
 ];
@@ -80,7 +75,7 @@ export const firstRouter = [
     {
         path: '/first',
         name: 'firstOne_index',
-        title: '导航11111',
+        title: 'nav.ejzdh1',
         component: Main,
         icon: 'el-icon-s-platform',
         meta: {
@@ -89,18 +84,16 @@ export const firstRouter = [
         children: [{
             path: 'one',
             meta: {
-                title: '导航1-1'
+                title: 'nav.ejzdh1'
             }, 
             name: 'firstOne_indexx', 
-            component: resolve => {
-                require(['./views/first/firstOne.vue'], resolve);
-            }
+            component: r => require.ensure([], () => r(require('@/views/first/firstOne')), 'links')
         }]
     },
     {
         path: '/first',
         name: 'firstTwo_index',
-        title: '导航122222',
+        title: 'nav.ejzdh2',
         component: Main,
         icon: 'el-icon-s-promotion',
         // meta: {
@@ -110,22 +103,18 @@ export const firstRouter = [
             path: 'two',
             meta: {
                 roles: ['ADMIN'],
-                title: '导航1-2-1'
+                title: 'nav.sjzdh1'
             }, 
             name: 'firstTwo_indexx', 
-            component: resolve => {
-                require(['./views/first/firstTwo.vue'], resolve);
-            }
+            component: r => require.ensure([], () => r(require('@/views/first/firstTwo')), 'links')
         },{
             path: 'twoX',
             meta: {
                 roles: ['ADMIN'],
-                title: '导航1-2-2'
+                title: 'nav.sjzdh2'
             }, 
             name: 'firstTwoXX_index', 
-            component: resolve => {
-                require(['./views/first/firstTwoXX.vue'], resolve);
-            }
+            component: r => require.ensure([], () => r(require('@/views/first/firstTwoXX')), 'links')
         }]
     },
 ];

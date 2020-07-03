@@ -21,3 +21,26 @@ export const login = {
     mmbnwk: 'Password cannot be empty',
     htxxglxt: 'Management System',
 };
+export const home = {
+    home: 'Home',
+    grzl: 'Information',
+    tc: 'Log Out',
+    ztqh: 'Theme',
+    glms: 'Bright Mode',
+    yjms: 'Night Mode',
+    yyqh: 'Language',
+    yhlb: 'Users List',
+    czan: 'Active',
+};
+export const nav = {
+    dh1: 'Nav1',
+    yjzdh1: 'Sub Nav1',
+    yjzdh2: 'Sub Nav2',
+    yjzdh3: 'Sub Nav3',
+    dh2: 'Nav2',
+    ejzdh1: 'Sub2 Nav1',
+    ejzdh2: 'Sub2 Nav2',
+    ejzdh3: 'Sub2 Nav3',
+    sjzdh1: 'Sub3 Nav1',
+    sjzdh2: 'Sub3 Nav2',
+};

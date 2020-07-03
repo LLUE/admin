@@ -1,4 +1,4 @@
-<style lang="less">
+<style lang="less" scoped>
 
     .langs{
         font-size: 12px;
@@ -17,10 +17,10 @@
             <el-button type="text" circle size="small" icon="el-icon-setting" class="btns"></el-button>
         </span>
         <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item disabled>主题切换</el-dropdown-item>
-            <el-dropdown-item :class="{'themeOn':light}" command="light" icon="fa fa-sun-o">高亮模式</el-dropdown-item>
-            <el-dropdown-item :class="{'themeOn':dark}" command="dark" icon="fa fa-moon-o">夜间模式</el-dropdown-item>
-            <el-dropdown-item disabled>语言切换</el-dropdown-item>
+            <el-dropdown-item disabled>{{$t('home.ztqh')}}</el-dropdown-item>
+            <el-dropdown-item :class="{'themeOn':light}" command="light" icon="fa fa-sun-o">{{$t('home.glms')}}</el-dropdown-item>
+            <el-dropdown-item :class="{'themeOn':dark}" command="dark" icon="fa fa-moon-o">{{$t('home.yjms')}}</el-dropdown-item>
+            <el-dropdown-item disabled>{{$t('home.yyqh')}}</el-dropdown-item>
             <el-dropdown-item :class="{'langOn':langZh}" command="zh-CN" icon="fa fa-language">中文简体</el-dropdown-item>
             <el-dropdown-item :class="{'langOn':langEn}" command="en-US"><span class="langs">En</span> English</el-dropdown-item>
         </el-dropdown-menu>

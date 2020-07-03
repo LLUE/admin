@@ -2,20 +2,21 @@
 
 </style>
 <template>
-    <div>
+    <transition-group name="list" tag="div">
         <el-tag
         size="medium"
-        :key="i"
-        v-for="(tag,i) in pageTagsList"
+        v-for="(tag) in pageTagsList"
+        :key="tag.name"
         :closable="(tag.name==='home_index')?false:true"
         :disable-transitions="false"
-        :class="{'on':tag.children?(tag.children[0].name===currentPageName):tag.name === currentPageName}"
+        :class="{'on':tag.children?(tag.children[0].name===currentPageName):tag.name === currentPageName,'list-item':true}"
         @click.native="linkTo(tag)"
         @close="handleClose(tag)">
             <span class="fa fa-circle"></span>
-            {{tag.meta.title||tag.title}}
+            {{$t(tag.meta.title||tag.title)}}
+            <!-- {{tag.meta.title||tag.title}} -->
         </el-tag>
-    </div>
+    </transition-group>
 </template>
 
 <script>
@@ -39,6 +40,12 @@ export default {
     watch: {
         '$route' (to) {
             this.routePageName = to.name;
+            this.pageTagsList.forEach(tag => {
+                let name = this.filterMenuName(tag)
+                if(name==to.name){
+                    this.linkTo(tag)
+                }
+            });
         }
     },
     computed: {
@@ -60,22 +67,30 @@ export default {
             let openTag = null;
             this.pageTagsList.map((item,i)=>{
                 if(tag.id == item.id){
-                    if(this.pageTagsList.length<=2){
+                    if(this.pageTagsList.length == i+1){
                         openTag = this.pageTagsList[i-1]
                     }else{
-                        openTag = this.pageTagsList[i+1]
+                        if(this.pageTagsList.length<=2){
+                            openTag = this.pageTagsList[i-1]
+                        }else{
+                            openTag = this.pageTagsList[i+1]
+                        }
                     }
                     this.$store.commit('subTag',i)
                 }
             })
-            
+            this.$parent.initMoveTag();
             let tagName = this.filterMenuName(tag)
+            let goName = this.filterMenuName(openTag)
             if(tagName == this.routePageName){
-                this.linkTo(openTag)
+                this.$store.commit('changeTags', openTag);
+                this.$router.push({
+                    name: goName
+                });
             }
         },
         linkTo (tag) {
-            this.$store.commit('changeMenu', tag);
+            this.$store.commit('changeTags', tag);
             if(this.currentPageName !== this.$route.name){
                 this.$router.push({
                     name: this.currentPageName

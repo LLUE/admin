@@ -10,8 +10,8 @@
         <div class="sidebar-menu-con">
             <div class="logo"
             :style="{width: showMenuCur ? '64px' : '240px'}">
-                <span v-if="showMenuCur"><img src="../assets/logo.png" alt=""></span>
-                <span v-if="!showMenuCur">{{$t('login.htxxglxt')}}</span>
+                <span v-show="showMenuCur"><img src="../assets/logo.png" alt=""></span>
+                <span v-show="!showMenuCur">{{$t('login.htxxglxt')}}</span>
             </div>
             <menus :isCollapse="showMenuCur"/>
         </div>
@@ -20,7 +20,7 @@
             <div class="main-header">
                 <div class="lef">
                     <el-button type="text" circle size="small" :icon="!showMenuCur?'el-icon-s-fold':'el-icon-s-unfold'" class="btns" @click="showMenu"></el-button>
-                    <el-button type="primary" circle size="small" icon="fa fa-home" class="btns"></el-button>
+                    <el-button type="primary" circle size="small" @click="linkTo({name:'home_index'})" icon="fa fa-home" class="btns"></el-button>
                 </div>
                 <div class="rig">
                     <el-dropdown trigger="click" class="dropdown" @command="handleAdmin">
@@ -29,9 +29,9 @@
                             <i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item icon="fa fa-user-circle-o">个人资料</el-dropdown-item>
-                            <el-dropdown-item icon="fa fa-pencil-square-o">修改密码</el-dropdown-item>
-                            <el-dropdown-item command="loginout" icon="fa fa-sign-out">退出</el-dropdown-item>
+                            <el-dropdown-item icon="fa fa-user-circle-o">{{$t('home.grzl')}}</el-dropdown-item>
+                            <el-dropdown-item icon="fa fa-pencil-square-o">{{$t('login.xgmm')}}</el-dropdown-item>
+                            <el-dropdown-item command="loginout" icon="fa fa-sign-out">{{$t('home.tc')}}</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                     <el-avatar :src="avatorPath" size="medium" @error="errorImg" class="avator">
@@ -43,7 +43,17 @@
                 </div>
             </div>
             <div class="tags-con">
-                <tags-page-opened :pageTagsList="pageTagsList" class="tagbox"></tags-page-opened>
+                <div class="tags_lef" @click="lefTag" v-show="lefBtn">
+                    <i class="el-icon-arrow-left"></i>
+                </div>
+                <div class="pos_rel" ref="tagRel">
+                <div class="pos_abs">
+                    <tags-page-opened :pageTagsList="pageTagsList" id="tagsList" class="tagbox"></tags-page-opened>
+                </div>
+                </div>
+                <div class="tags_rig" @click="rigTag" v-show="rigBtn">
+                    <i class="el-icon-arrow-right"></i>
+                </div>
             </div>
         </div>
         <div class="main-page-con"
@@ -71,6 +81,9 @@ export default {
     },
     data(){
         return {
+            lis:[],
+            lefBtn: false,
+            rigBtn: false,
             themes:{
                 dark:false,
                 light:true,
@@ -92,15 +105,24 @@ export default {
         },
     },
     mounted () {
+        let that = this
         this.init();
         // 查找当前用户之前登录时设置的主题
         let name = Cookies.get('username');
-       
+        this.initMoveTag();
     },
     watch: {
         mainTheme: function(theme){
             this.setMainTheme(theme)
-            
+        },
+        pageTagsList: function() { 
+            this.liswrap();
+        },
+        '$route':{
+            handler(to,from) { 
+                this.liswrap();
+            }, 
+            immediate: true
         }
     },
     created () {
@@ -126,6 +148,70 @@ export default {
         this.$store.commit('setOpenedList');
     },
     methods: {
+        linkTo(ops){
+            this.$route.name != ops.name && this.$router.push(ops);
+        },
+        initMoveTag(){
+            if(!this.$refs.tagRel){
+                return false
+            }
+            let abs = this.$refs.tagRel.querySelector('.pos_abs');
+            abs.style.cssText = `left: 0px`;
+            this.lefBtn = false;
+            this.rigBtn = (abs.clientWidth>this.$refs.tagRel.clientWidth) ? true : false;
+        },
+        rigTag(){
+            this.liswrap();
+            if(!this.$refs.tagRel){
+                return false
+            }
+            let abs = this.$refs.tagRel.querySelector('.pos_abs');
+            let lef = abs.offsetLeft
+            let posW = this.$refs.tagRel.offsetWidth;
+            let tagW = this.lis.reduce((all,cur,index,arr)=>{
+                if (all+lef>posW){
+                    return all+0
+                }
+                return all+cur
+            })
+            if(tagW>posW){
+                abs.style.cssText = `left: ${posW-tagW}px`
+                this.lefBtn = true
+            }
+        },
+        lefTag(){
+            this.liswrap();
+            let abs = this.$refs.tagRel.querySelector('.pos_abs');
+            let lef = -abs.offsetLeft
+            
+            let alls = null;
+            let ars = this.lis.filter((a,i)=>{
+                alls += a;
+                return (alls<lef)
+            })
+            let preW = ars.length ? ars.reduce((all,cur,index,arr)=>{
+                return all+cur
+            }) : 0 ;
+
+            if(preW<lef){
+                abs.style.cssText = `left: ${-preW}px`
+            }
+            if(preW == 0){
+                this.lefBtn = false
+            }
+        },
+        liswrap(){
+            this.$nextTick(()=>{
+                let lis = []
+                document.querySelector('#tagsList').querySelectorAll('.el-tag').forEach(e=>{
+                    if(e.classList.contains('el-zoom-in-center-leave-active') !== true){
+                        lis.push(e.offsetWidth+5)
+                    }
+                })
+                this.lis = lis;
+                return lis
+            })
+        },
         setMainTheme(val){
             if (val !== 'light') {
                 Vue.use(require('../assets/css/theme.dark.less'))

@@ -102,6 +102,10 @@ const mutations = {
             this.commit('increateTag', tag);
         }
     },
+    changeTags (state,active) {
+        this.commit('filterMenuName',active);
+        this.commit('setMenuCur',active);
+    },
 }
 const actions = {}
 

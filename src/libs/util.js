@@ -7,7 +7,7 @@ import store from 'vuex';
 let util = {
 };
 util.title = function (title) {
-    title = title || '后台管理系统';
+    title = title || '后台信息管理系统';
     window.document.title = title;
 };
 
@@ -50,7 +50,6 @@ util.ajax.interceptors.request.use(function (config) {
     return Promise.reject(error);
 })
 
-let apiTokenExpire = false
 // 添加响应拦截器
 util.ajax.interceptors.response.use(function (response) {
     // debugger
@@ -73,33 +72,26 @@ util.ajax.interceptors.response.use(function (response) {
         window.location.reload();
     }
     // 对响应数据做点什么
-    return response;
+    return Promise.resolve(response);
 }, function (error) {
-    if (error.response && error.response.status === 500 && error.response.data.exception === 'io.bitark.exception.TokenInvalidException') {
-        // console.log( Cookies.get('Authorization'))
         // 退出登录
-        if (apiTokenExpire) {
-            return Promise.reject(error);
+        if (error && error.response.data && error.response.data.status === 500 && error.response.data.exception === 'io.bitark.exception.TokenInvalidException') {
+            Cookies.remove('username');
+            Cookies.remove('password');
+            Cookies.remove('hasGreet');
+            Cookies.remove('access');
+            let language = '';
+            if (window.localStorage.language) {
+                language = window.localStorage.language;
+            }
+            window.localStorage.clear();
+            if (language) {
+                window.localStorage.language = language;
+            }
+            window.location.reload();
         }
-        apiTokenExpire = true
-        alert(error.response.data.message)
-        // this.$Message.error({content: error.response.data.message})
-        Cookies.remove('username');
-        Cookies.remove('password');
-        Cookies.remove('hasGreet');
-        Cookies.remove('access');
-        let language = '';
-        if (window.localStorage.language) {
-            language = window.localStorage.language;
-        }
-        window.localStorage.clear();
-        if (language) {
-            window.localStorage.language = language;
-        }
-        window.location.reload();
-    }
-    // 对响应错误做点什么
-    return Promise.reject(error);
+        // 对响应错误做点什么
+        return Promise.reject(error);
 });
 
 util.inOf = function (arr, targetArr) {

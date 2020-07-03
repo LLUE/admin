@@ -47,6 +47,7 @@ const i18n = new VueI18n({
   silentTranslationWarn: true
 })
 
+console.log()
 // 路由配置
 const RouterConfig = {
 //   mode: 'history',
@@ -60,7 +61,7 @@ const router = new VueRouter(
 let locking = 1
 router.beforeEach((to, from, next) => {
     NProgress.start()
-    Util.title(to.meta.title);
+    Util.title(i18n.t('login.htxxglxt')+' - '+i18n.t(to.meta.title));
     if(locking == 1){
         if(!Cookies.get('username') && to.name !== 'login'){
             console.log('没有登录，进入'+to.name)
